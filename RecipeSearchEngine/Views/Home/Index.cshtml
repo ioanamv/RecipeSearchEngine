@@ -1,0 +1,50 @@
+﻿@model List<RecipeSearchEngine.Models.Recipe>
+@{
+    ViewData["Title"] = "Recipe Search";
+}
+
+<h2>Recipe Search</h2>
+
+<form method="post" class="mt-3">
+    <div class="input-group">
+        <input type="text" name="query" class="form-control" placeholder="Search recipes..." />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+@if (ViewBag.HasSearched)
+{
+    <p class="mt-2"><strong>Results for "@ViewBag.Query":</strong></p>
+
+    @if (!Model.Any())
+    {
+        <p>No recipes found. Try a different search term.</p>
+    }
+}
+
+@if (Model != null && Model.Any())
+{
+    <div class="row mt-4">
+        @foreach (var r in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@r.ImageUrl" class="card-img-top" alt="@r.Title" />
+
+                    <div class="card-body">
+                        <h5 class="card-title">@r.Title</h5>
+                        <p class="card-text">
+                            <strong>Difficulty:</strong> @r.Difficulty <br />
+                            <strong>Time:</strong> @r.CookingTimeMinutes min <br />
+                            <strong>Cuisine:</strong> @r.Cuisine
+                        </p>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="/Home/Details/@r.Id" class="btn btn-sm btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
